@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs/promises';
+import 'dotenv/config';
 
 import { Container } from './container.js';
 import { loadModulesFromConfig, buildOrder } from './moduleLoader.js';

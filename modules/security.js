@@ -139,10 +139,18 @@ export default {
             errors.push("Список доверенных источников не может быть пустым");
         } else {
             for (const origin of config.trustedOrigins) {
+                if (!origin.includes('://')) {
+                    errors.push(`Некорректный URL (отсутствует ://): "${origin}". Правильный формат: http://localhost:3000`);
+                    continue;
+                }
+                
                 try {
                     const url = new URL(origin);
                     if (url.protocol !== 'http:' && url.protocol !== 'https:') {
                         errors.push(`Недопустимый протокол в "${origin}". Используйте http или https`);
+                    }
+                    if (!url.hostname || url.hostname === '') {
+                        errors.push(`Отсутствует хост в URL: "${origin}"`);
                     }
                 } catch {
                     errors.push(`Некорректный URL доверенного источника: "${origin}"`);
